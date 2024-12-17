@@ -28,10 +28,10 @@ function mainMenu() {
                 source listdbs.sh 
                 ;;
             3)
-                source connectdb.sh 
+                source connect-db.sh 
                 ;;
             4)
-                source dropdb.sh
+                source drop-db.sh
                 ;;
             5)
                 exitScript
