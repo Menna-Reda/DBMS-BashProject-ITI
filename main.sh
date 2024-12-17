@@ -1,39 +1,54 @@
-#! /usr/bin/bash
+#!/usr/bin/bash
 
-DB_PATH=~/iti\ projects/DBMS-BashProject-ITI/DataBases
-
+DB_PATH=./DataBases
 if [[ ! -d "$DB_PATH" ]]; then
     mkdir -p "$DB_PATH"
 fi
 cd "$DB_PATH" || exit
-echo "DBMS is ready"
+whiptail --title "DBMS Initialization" --msgbox "DBMS is ready!" 10 40
 
-select option in createDB ConnectDB DropDB listDB exit
-do
-case $option in 
-"createDB")
-	read -p "Please Enter Database name: " dbName
-	
-;;
-"ConnectDB")
-	connectDB=$connectDB ./connect-db.sh
-;;
-"DropDB")
-	 if [[ -f ./drop-db.sh ]]; then
-                dropDB=$dropDB ./drop-db.sh
-            else
-                echo "Error: 'drop-db.sh' script not found!"
-           fi
-;;
-	"listDB")
-	
-;;
-"exit")
-            echo "Exiting..."
-            break
-            ;;
-*)
-            echo "Invalid option. Please try again."
-            ;;
-esac
-done
+function mainMenu() {
+    while true; do
+        # Display the main menu
+        option=$(whiptail --nocancel --title "Main Menu" --fb --menu "Select an option:" 15 60 5 \
+            "1" "Create DataBase" \
+            "2" "List DataBases" \
+            "3" "Connect To a DataBase" \
+            "4" "Drop a DataBase" \
+            "5" "Exit" 3>&1 1>&2 2>&3)
+        
+        case $option in 
+            1)
+                echo "Create DataBase"
+			    dbName=$(whiptail --title "Create DataBase" --inputbox "Enter your data base name to creat" 8 45 3>&1 1>&2 2>&3)
+			    echo $dbName 
+			    source createdb.sh
+			    ;;
+            2)
+                source listdbs.sh 
+                ;;
+            3)
+                source connectdb.sh 
+                ;;
+            4)
+                source dropdb.sh
+                ;;
+            5)
+                exitScript
+                ;;
+            *)
+                whiptail --title "Invalid Option" --msgbox "Please select a valid option!" 10 40
+                ;;
+        esac
+    done
+}
+
+function exitScript() {
+    whiptail --title "Exit" --yesno "Are you sure you want to exit?" 10 40
+    if [[ $? -eq 0 ]]; then
+        whiptail --title "Goodbye" --msgbox "Thank you for using our DBMS!" 10 40
+        exit 0
+    fi
+}
+
+mainMenu
