@@ -1,6 +1,7 @@
 #! /usr/bin/bash
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 DB_PATH="$SCRIPT_DIR/DataBases"
+
 function createDB {
     dbName=$1
     if [[ -d "$DB_PATH/$dbName" ]]; then

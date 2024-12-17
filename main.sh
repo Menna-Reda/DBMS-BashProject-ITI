@@ -1,6 +1,8 @@
 #!/usr/bin/bash
+
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 DB_PATH="$SCRIPT_DIR/DataBases"
+
 if [[ ! -d "$DB_PATH" ]]; then
     mkdir -p "$DB_PATH"
 fi
@@ -20,23 +22,19 @@ function mainMenu() {
         case $option in 
             1)
                 echo "Create DataBase"
-			    dbName=$(whiptail --title "Create DataBase" --inputbox "Enter your database name to create" 8 45 3>&1 1>&2 2>&3)
-			    echo $dbName 
-			    source createdb.sh "$dbName"
+		  dbName=$(whiptail --title "Create DataBase" --inputbox "Enter your database name to create" 8 45 3>&1 1>&2 2>&3)
+		  echo $dbName 
+		  source createdb.sh "$dbName"
 			    ;;
             2)
                 source listdbs.sh 
                 ;;
             3)
              echo "Connect to DataBase"
-		dbConnect=$(whiptail --title "Connect to DataBase" --inputbox "Enter your database name to connect" 8 45 3>&1 1>&2 2>&3)
-		echo $dbConnect 
-                source connect-db.sh 
+                source connect-db.sh
                 ;;
             4)
              echo "Drop DataBase"
-		dbDrop=$(whiptail --title "Drop DataBase" --inputbox "Enter your database name to drop" 8 45 3>&1 1>&2 2>&3)
-		echo $dbDrop
                 source drop-db.sh
                 ;;
             5)
