@@ -34,21 +34,13 @@ function mainMenu() {
                 source drop-db.sh
                 ;;
             5)
-                exitScript
+                source exitScript.sh
                 ;;
             *)
                 whiptail --title "Invalid Option" --msgbox "Please select a valid option!" 10 40
                 ;;
         esac
     done
-}
-
-function exitScript() {
-    whiptail --title "Exit" --yesno "Are you sure you want to exit?" 10 40
-    if [[ $? -eq 0 ]]; then
-        whiptail --title "Goodbye" --msgbox "Thank you for using our DBMS!" 10 40
-        exit 0
-    fi
 }
 
 mainMenu
