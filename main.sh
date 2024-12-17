@@ -1,6 +1,6 @@
 #!/usr/bin/bash
-
-DB_PATH=./DataBases
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+DB_PATH="$SCRIPT_DIR/DataBases"
 if [[ ! -d "$DB_PATH" ]]; then
     mkdir -p "$DB_PATH"
 fi

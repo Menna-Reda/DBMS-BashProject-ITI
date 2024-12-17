@@ -1,7 +1,9 @@
 #! /usr/bin/bash
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+DB_PATH="$SCRIPT_DIR/DataBases"
 function createDB {
     dbName=$1
-    if [[ -d "./DataBases/$dbName" ]]; then
+    if [[ -d "$DB_PATH/$dbName" ]]; then
 	echo "DataBase $dbName Already Exists";
 	whiptail --title "Create Databse Message" --msgbox "DataBase $dbName Already Exists" 10 40
     else
@@ -9,7 +11,7 @@ function createDB {
             whiptail --title "Invalid database name" --msgbox "Cannot create database with blank name" 10 40
         elif [[ $dbName =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]
         then 
-            mkdir "./DataBases/$dbName"
+            mkdir "$DB_PATH/$dbName"
             whiptail --title "Database Creadted" --msgbox "Database $dbName created successfully." 10 40
 
         else
