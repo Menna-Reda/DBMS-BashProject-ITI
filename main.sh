@@ -20,9 +20,9 @@ function mainMenu() {
         case $option in 
             1)
                 echo "Create DataBase"
-			    dbName=$(whiptail --title "Create DataBase" --inputbox "Enter your data base name to creat" 8 45 3>&1 1>&2 2>&3)
+			    dbName=$(whiptail --title "Create DataBase" --inputbox "Enter your database name to creat" 8 45 3>&1 1>&2 2>&3)
 			    echo $dbName 
-			    source createdb.sh
+			    source createdb.sh "$dbName"
 			    ;;
             2)
                 source listdbs.sh 
