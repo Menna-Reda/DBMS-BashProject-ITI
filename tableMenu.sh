@@ -22,19 +22,19 @@ function mainMenu(){
                 source listtbs.sh "$dbName"
                 ;;
          3)
-                source droptb.sh "$dbName" "$tbName"
+                source droptb.sh "$dbName" 
                 ;;
          4)
-                source insertintotb.sh "$dbName" "$tbName"
+                source insertData.sh "$dbName" 
                 ;;
          5)     
-                source selectfromtb.sh "$dbName" "$tbName"
+                source selectfromtb.sh "$dbName" 
                 ;;
          6)
-                source deletfromtb.sh "$dbName" "$tbName"
+                source deletfromtb.sh "$dbName" 
                 ;;
          7)
-                source updatetb.sh "$dbName" "$tbName"
+                source updatetb.sh "$dbName" 
                 ;;
          8)
                 source exitScript.sh
