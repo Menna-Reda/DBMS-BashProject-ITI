@@ -10,7 +10,7 @@ if [ -d "$DB_PATH/$dbConnect" ]; then
                 whiptail --title "Connected to $dbConnect" --msgbox "Connected successfully to $dbConnect " 8 45
                 echo "Connected to database: $PWD"
                 echo "Choose an option: "
-              #  ./tablemunue	
+                source tableMenu.sh	dbConnect
 else
           whiptail --title "Error Message" --msgbox "Connection failed" 8 45
           echo "Database not found."
