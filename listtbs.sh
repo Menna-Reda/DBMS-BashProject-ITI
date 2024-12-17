@@ -4,7 +4,7 @@ DB_PATH="$SCRIPT_DIR/DataBases"
 function listTBs(){
     dbName=$1
     DatabasesNo=$( ls -f $DB_PATH/$dbName/* |wc -l )
-    DatabasesList=$( ls -f $DB_PATH/$dbName/* | cut -d/ -f9)
+    DatabasesList=$( ls -f $DB_PATH/$dbName/* )
     whiptail --title "List of tables in" --msgbox "Number of databases: $DatabasesNo\n$DatabasesList" 10 40
 }
 listTBs "$1"
