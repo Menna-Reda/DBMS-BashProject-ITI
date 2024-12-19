@@ -14,9 +14,7 @@ function mainMenu(){
         case $option in
         1)
             echo "Create Table"
-			    tbName=$(whiptail --title "Create Table" --inputbox "Enter your table name to creat" 8 45 3>&1 1>&2 2>&3)
-			    echo $tbName 
-			    source createtb.sh "$dbName" "$tbName"
+			    source createtb.sh "$dbName"
 			    ;;
          2)
                 source listtbs.sh "$dbName"

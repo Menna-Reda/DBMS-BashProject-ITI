@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+shopt -s extglob 
+
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 DB_PATH="$SCRIPT_DIR/DataBases"
 
@@ -24,7 +26,7 @@ function mainMenu() {
                 echo "Create DataBase"
 		  dbName=$(whiptail --title "Create DataBase" --inputbox "Enter your database name to create" 8 45 3>&1 1>&2 2>&3)
 		  echo $dbName 
-		  source createdb.sh "$dbName"
+		  . ./createdb.sh "$dbName"
 			    ;;
             2)
                 source listdbs.sh 

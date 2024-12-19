@@ -8,7 +8,7 @@ dropDB=$(whiptail --title "Drop DataBase" --inputbox "Enter your database name t
 echo $dropDB
 if [ -d "$DB_PATH/$dropDB" ]; then
     whiptail --title "Drop Databse Message" --msgbox "You deleted $dropDB database successfully" 8 45
-    rmdir "$DB_PATH/$dropDB"
+    rm -r "$DB_PATH/$dropDB"
     echo "You deleted the database $dropDB."
 else
     whiptail --title "Drop Databse Message" --msgbox "Error to delete database $dropDB" 8 45
