@@ -50,6 +50,8 @@ function insertData(){
             
         done
         echo $dataRow >> $DB_PATH/$dbName/$tbName
+        whiptail --title "Success Message" --msgbox "Your record inserted successfully" 10 45
+
     else
         whiptail --title "Error Message" --msgbox "No such table in $dbName database!" 10 40
     fi
