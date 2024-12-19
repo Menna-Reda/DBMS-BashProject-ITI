@@ -23,21 +23,21 @@ function mainMenu() {
         
         case $option in 
             1)
-                echo "Create DataBase"
+                  echo "Create DataBase"
 		  dbName=$(whiptail --title "Create DataBase" --inputbox "Enter your database name to create" 8 45 3>&1 1>&2 2>&3)
 		  echo $dbName 
-		  . ./createdb.sh "$dbName"
-			    ;;
+		  source createdb.sh "$dbName"
+		;;
             2)
                 source listdbs.sh 
                 ;;
             3)
-             echo "Connect to DataBase"
+             	echo "Connect to DataBase"
                 source connect-db.sh
                 ;;
             4)
-             echo "Drop DataBase"
-                source drop-db.sh
+            	 echo "Drop DataBase"
+                 source drop-db.sh
                 ;;
             5)
                 source exitScript.sh
