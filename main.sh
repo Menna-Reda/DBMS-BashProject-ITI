@@ -5,7 +5,7 @@ shopt -s extglob
 # Get the absolute path of the current script
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 DB_PATH="$SCRIPT_DIR/DataBases"  # Ensure this points to the correct folder
-
+PROJECT_ROOT="$SCRIPT_DIR/../.."
 # Debugging: Check directories
 echo "Current directory: $(pwd)"
 echo "Script directory: $SCRIPT_DIR"
@@ -56,14 +56,14 @@ while true; do
             fi
             ;;
         3)
-            if [[ -f "$SCRIPT_DIR/connect-db.sh" ]]; then
-                source "$SCRIPT_DIR/connect-db.sh"
+            if [[ -f "$PROJECT_ROOT/connect-db.sh" ]]; then
+                source "$PROJECT_ROOT/connect-db.sh"
             else
                 whiptail --title "Error" --msgbox "connect-db.sh not found!" 10 40
             fi
             ;;
         4)
-            if [[ -f "$SCRIPT_DIR/drop-db.sh" ]]; then
+            if [[ -f "$PROJECT_ROOT/drop-db.sh" ]]; then
                 source "$SCRIPT_DIR/drop-db.sh"
             else
                 whiptail --title "Error" --msgbox "drop-db.sh not found!" 10 40
