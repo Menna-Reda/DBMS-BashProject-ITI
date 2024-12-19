@@ -4,7 +4,8 @@ dbName=$1
 echo "Database Name: $dbName"
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
-DB_PATH="$SCRIPT_DIR/DataBases/$dbName"
+echo " in create table :$SCRIPT_DIR"
+DB_PATH="$SCRIPT_DIR"
 
 # Ensure database directory exists
 if [[ ! -d "$DB_PATH" ]]; then
