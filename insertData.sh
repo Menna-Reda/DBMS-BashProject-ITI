@@ -18,7 +18,7 @@ function insertData(){
             pkConstrain=`awk 'BEGIN {FS=":"}{if ( NR=='$i' ) print $3 }' $DB_PATH/$dbName/.$tbName`
             echo "$pkConstrain pkConstrain"
             data=$(whiptail --title "Insert Data" --inputbox "Enter your data for $colName" 8 45 3>&1 1>&2 2>&3)
-            if [[ $colDataType -eq "int" ]]; then
+            if [[ $colDataType == "int" ]]; then
                 if ! [[ $data =~ ^[0-9]+$ ]]; then
                  
                     whiptail --title "Error Message" --msgbox "Wrong datatype, $colName accpets integer only" 10 40
@@ -50,7 +50,6 @@ function insertData(){
             
         done
         echo $dataRow >> $DB_PATH/$dbName/$tbName
-        whiptail --title "Success Message" --msgbox "Your record inserted successfully" 10 45
 
     else
         whiptail --title "Error Message" --msgbox "No such table in $dbName database!" 10 40
