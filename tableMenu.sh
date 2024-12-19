@@ -14,7 +14,7 @@ function mainMenu(){
         case $option in
         1)
 		 echo "Create Table"
-		 source createtb.sh "$dbName"
+		 source createTb.sh "$dbName"
 		;;
          2)
                 source listtbs.sh "$dbName"
