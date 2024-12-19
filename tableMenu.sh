@@ -13,9 +13,9 @@ function mainMenu(){
                     "8" "Exit" 3>&1 1>&2 2>&3)
         case $option in
         1)
-            echo "Create Table"
-			    source createtb.sh "$dbName"
-			    ;;
+		 echo "Create Table"
+		 source createtb.sh "$dbName"
+		;;
          2)
                 source listtbs.sh "$dbName"
                 ;;
