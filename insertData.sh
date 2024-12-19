@@ -18,8 +18,8 @@ function insertData(){
             pkConstrain=`awk 'BEGIN {FS=":"}{if ( NR=='$i' ) print $3 }' $DB_PATH/$dbName/.$tbName`
             echo "$pkConstrain pkConstrain"
             data=$(whiptail --title "Insert Data" --inputbox "Enter your data for $colName" 8 45 3>&1 1>&2 2>&3)
-            while [[ -z $data ]]; do
-                whiptail --title "Error Message" --msgbox "Empty data not accepted, enter your data again" 10 40
+            while [[ -z $data && $pkConstrain == "PK" ]]; do
+                whiptail --title "Error Message" --msgbox "Empty data not accepted for $colName, enter your data again" 10 40
                 data=$(whiptail --title "Insert Data" --inputbox "Enter your data for $colName" 8 45 3>&1 1>&2 2>&3)
             done
 
