@@ -6,7 +6,7 @@ echo "SCRIPT_DIR: $SCRIPT_DIR"
 echo "from tablemenu: $PROJECT_ROOT"      
 
 function mainMenu() {
-  while True ; do     
+  while true ; do     
     dbName=$2
     echo "Selected database: $dbName"
 
