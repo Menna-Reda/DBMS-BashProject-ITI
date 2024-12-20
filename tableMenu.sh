@@ -1,9 +1,9 @@
 #!/usr/bin/bash
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")  # Get the directory of the current script
-PROJECT_ROOT="$SCRIPT_DIR/../.."         # Go up two levels to the project root
-echo "SCRIPT_DIR: $SCRIPT_DIR"           # Debugging: Print the script directory
-echo "PROJECT_ROOT: $PROJECT_ROOT"       # Debugging: Print the project root directory
+PROJECT_ROOT=$2        # Go up two levels to the project root
+echo "SCRIPT_DIR: $SCRIPT_DIR"           
+echo "from tablemenu: $PROJECT_ROOT"      
 
 function mainMenu() {
     dbName=$1
@@ -23,28 +23,28 @@ function mainMenu() {
         case $option in
         1)
                echo "Create Table"
-               source createTb.sh "$dbName"
+               . "$PROJECT_ROOT/createTb.sh" "$dbName" "$PROJECT_ROOT"
               ;;
          2)
-                source listtbs.sh "$dbName"
+                . "$PROJECT_ROOT/listtbs.sh" "$dbName"
                 ;;
          3)
-                source droptb.sh "$dbName" 
+                . "$PROJECT_ROOT/droptb.sh" "$dbName" 
                 ;;
          4)
-                source insertData.sh "$dbName" 
+                . "$PROJECT_ROOT/insertData.sh" "$dbName" 
                 ;;
          5)     
-                source selectfromtb.sh "$dbName" 
+                . "$PROJECT_ROOT/selectfromtb.sh" "$dbName" 
                 ;;
          6)
-                source deletfromtb.sh "$dbName" 
+                . "$PROJECT_ROOT/deletfromtb.sh" "$dbName" 
                 ;;
          7)
-                source updatetb.sh "$dbName" 
+                . "$PROJECT_ROOT/updatetb.sh""$dbName" 
                 ;;
          8)
-                source exitScript.sh
+                . "$PROJECT_ROOT/exitScript.sh"
                 ;;
          *)
                 whiptail --title "Invalid Option" --msgbox "Please select a valid option!" 10 40

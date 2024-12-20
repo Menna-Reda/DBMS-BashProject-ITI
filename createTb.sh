@@ -2,9 +2,10 @@
 
 dbName=$1
 echo "Database Name: $dbName"
+PROJECT_ROOT=$2        # Go up two levels to the project root
+echo "from create table" "$PROJECT_ROOT"
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
-echo " in create table :$SCRIPT_DIR"
 DB_PATH="$SCRIPT_DIR"
 
 # Ensure database directory exists
@@ -84,8 +85,8 @@ else
     whiptail --title "Create Table Message" --msgbox "You created the table $tbName successfully!" 8 45
 fi
 
-if [[ -f "$SCRIPT_DIR/tableMenu.sh" ]]; then
-    source "$SCRIPT_DIR/tableMenu.sh"
+if [[ -f "$project_root/tableMenu.sh" ]]; then
+    source "$project_root/tableMenu.sh"
 else
     echo "Error: tableMenu.sh not found!"
     exit 1

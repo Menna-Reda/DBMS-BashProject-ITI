@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
-DB_PATH="$SCRIPT_DIR/DataBases"
+DB_PATH="$SCRIPT_DIR"
 function insertData(){
     dbName=$1
     tbName=$(whiptail --title "Select table" --inputbox "Enter your table name" 8 45 3>&1 1>&2 2>&3)
