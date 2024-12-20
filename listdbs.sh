@@ -1,6 +1,9 @@
 #!/usr/bin/bash
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
-DB_PATH="$SCRIPT_DIR/DataBases"
+DB_PATH="$SCRIPT_DIR/DataBase"
+echo "DB_PATH is: $DB_PATH"
+ls -l "$DB_PATH"
+
 function listDBs() {
  
     DatabasesNo=$( ls -d $DB_PATH/* |wc -l )

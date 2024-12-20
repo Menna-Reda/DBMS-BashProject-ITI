@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
-DB_PATH="$SCRIPT_DIR"
+DB_PATH="$SCRIPT_DIR/DataBase"
 function dropTable(){
     dbName=$1
     tbName=$(whiptail --title "Select table" --inputbox "Enter table name to be dropped" 8 45 3>&1 1>&2 2>&3)

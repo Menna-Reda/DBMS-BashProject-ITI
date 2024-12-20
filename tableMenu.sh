@@ -1,16 +1,11 @@
 #!/usr/bin/bash
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")  # Get the directory of the current script
-PROJECT_ROOT=$1        # Go up two levels to the project root
-echo "SCRIPT_DIR: $SCRIPT_DIR"           
-echo "from tablemenu: $PROJECT_ROOT"      
-
+echo "sript from table menu $SCRIPT_DIR"
+db_Name=$1
 function mainMenu() {
   while true ; do     
-    dbName=$2
-    echo "Selected database: $dbName"
 
-    while true; do
         option=$(whiptail --nocancel --title "Tables Menu" --fb --menu "Select an option" 15 60 8 \
             "1" "Create table" \
             "2" "List tables" \
@@ -24,35 +19,34 @@ function mainMenu() {
         case $option in
         1)
                echo "Create Table"
-               . "$PROJECT_ROOT/createTb.sh" "$PROJECT_ROOT" "$dbName" 
+               source createTb.sh $db_Name
               ;;
          2)
-                . "$PROJECT_ROOT/listtbs.sh" "$dbName"
+                source listtbs.sh $db_Name
                 ;;
          3)
-                . "$PROJECT_ROOT/droptb.sh" "$dbName" 
+                source droptb.sh $db_Name
                 ;;
          4)
-                . "$PROJECT_ROOT/insertData.sh" "$dbName" 
+                source insertData.sh $db_Name
                 ;;
          5)     
-                . "$PROJECT_ROOT/selectmenu.sh" "$PROJECT_ROOT" "$dbName" 
+                source selectmenu.sh $db_Name
                 ;;
          6)
-                . "$PROJECT_ROOT/deletfromtb.sh" "$dbName" 
+                source deletfromtb.sh $db_Name
                 ;;
          7)
-                . "$PROJECT_ROOT/updatetb.sh""$dbName" 
+               source updatetb.sh $db_Name
                 ;;
          8)
-                . "$PROJECT_ROOT/exitScript.sh"
+                source exitScript.sh
                 ;;
          *)
                 whiptail --title "Invalid Option" --msgbox "Please select a valid option!" 10 40
                 ;;
-        esac
-    done
-  done   
+        esac 
+    done      
 }
 
-mainMenu $@
+mainMenu
