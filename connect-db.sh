@@ -1,12 +1,10 @@
 #!/usr/bin/bash
 
-PROJECT_ROOT=$2  # Root directory of DBMS
+PROJECT_ROOT=$1  # Root directory of DBMS
 echo "from connect db" "$PROJECT_ROOT"
 DB_PATH="$PROJECT_ROOT/DataBases"  # Path to the databases directory
-
+dbConnect=$2
 function connect {
-    dbConnect=$(whiptail --title "Connect to DataBase" --inputbox "Enter your database name to connect" 8 45 3>&1 1>&2 2>&3)
-
     if [ -d "$DB_PATH/$dbConnect" ]; then
         cd "$DB_PATH/$dbConnect" || { 
             echo "Error: Could not change directory to $DB_PATH/$dbConnect"; 
@@ -18,7 +16,7 @@ function connect {
         
         # Source tableMenu.sh
         if [[ -f "$PROJECT_ROOT/tableMenu.sh" ]]; then
-            . "$PROJECT_ROOT/tableMenu.sh" "$dbConnect" "$PROJECT_ROOT"
+            . "$PROJECT_ROOT/tableMenu.sh" "$PROJECT_ROOT" "$dbConnect"
         else
             whiptail --title "Error" --msgbox "Error: tableMenu.sh not found!" 8 45
             exit 1

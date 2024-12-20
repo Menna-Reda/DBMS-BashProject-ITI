@@ -1,12 +1,13 @@
 #!/usr/bin/bash
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")  # Get the directory of the current script
-PROJECT_ROOT=$2        # Go up two levels to the project root
+PROJECT_ROOT=$1        # Go up two levels to the project root
 echo "SCRIPT_DIR: $SCRIPT_DIR"           
 echo "from tablemenu: $PROJECT_ROOT"      
 
 function mainMenu() {
-    dbName=$1
+  while True ; do     
+    dbName=$2
     echo "Selected database: $dbName"
 
     while true; do
@@ -23,7 +24,7 @@ function mainMenu() {
         case $option in
         1)
                echo "Create Table"
-               . "$PROJECT_ROOT/createTb.sh" "$dbName" "$PROJECT_ROOT"
+               . "$PROJECT_ROOT/createTb.sh" "$PROJECT_ROOT" "$dbName" 
               ;;
          2)
                 . "$PROJECT_ROOT/listtbs.sh" "$dbName"
@@ -35,7 +36,7 @@ function mainMenu() {
                 . "$PROJECT_ROOT/insertData.sh" "$dbName" 
                 ;;
          5)     
-                . "$PROJECT_ROOT/selectfromtb.sh" "$dbName" 
+                . "$PROJECT_ROOT/selectmenu.sh" "$PROJECT_ROOT" "$dbName" 
                 ;;
          6)
                 . "$PROJECT_ROOT/deletfromtb.sh" "$dbName" 
@@ -51,6 +52,7 @@ function mainMenu() {
                 ;;
         esac
     done
+  done   
 }
 
-mainMenu "$1"
+mainMenu $@

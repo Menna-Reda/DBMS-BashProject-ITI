@@ -34,11 +34,11 @@ function mainMenu() {
                 ;;
             3)
                 dbName=$(whiptail --title "Connect to DataBase" --inputbox "Enter the database name to connect" 8 45 3>&1 1>&2 2>&3)
-                . "$SCRIPT_DIR/connect-db.sh" "$dbName" "$SCRIPT_DIR"
+                . "$SCRIPT_DIR/connect-db.sh" "$SCRIPT_DIR" "$dbName"
                 ;;
             4)
                 dbName=$(whiptail --title "Drop DataBase" --inputbox "Enter the database name to drop" 8 45 3>&1 1>&2 2>&3)
-                . "$SCRIPT_DIR/drop-db.sh" "$dbName" "$SCRIPT_DIR"
+                . "$SCRIPT_DIR/drop-db.sh" "$SCRIPT_DIR" "$dbName"
                 ;;
             5)
                 whiptail --title "Exit" --yesno "Are you sure you want to exit?" 10 40
