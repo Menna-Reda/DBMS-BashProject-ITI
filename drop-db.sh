@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
-DB_PATH="$SCRIPT_DIR/DataBase"
+DB_PATH="$SCRIPT_DIR/DataBases"
 
 dropDB=$(whiptail --title "Drop DataBase" --inputbox "Enter your database name to drop" 8 45 3>&1 1>&2 2>&3)
 
