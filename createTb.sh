@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 dbName=$1
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
-DB_PATH="$SCRIPT_DIR/DataBase/$dbName"
+DB_PATH="$SCRIPT_DIR/DataBases/$dbName"
 echo "from create table $DB_PATH"
 # Ensure database directory exists
 if [[ ! -d "$dbName" ]]; then

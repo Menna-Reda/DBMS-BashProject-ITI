@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
-DB_PATH="$SCRIPT_DIR/DataBase"
+DB_PATH="$SCRIPT_DIR/DataBases"
 echo "db path in connect $DB_PATH"
 function connect {
         dbConnect=$(whiptail --title "Connect to DataBase" --inputbox "Enter your database name to connect" 8 45 3>&1 1>&2 2>&3)
