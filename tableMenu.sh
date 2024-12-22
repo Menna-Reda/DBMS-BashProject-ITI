@@ -6,7 +6,7 @@ db_Name=$1
 function mainMenu() {
   while true ; do     
 
-        option=$(whiptail --nocancel --title "Tables Menu" --fb --menu "Select an option" 15 60 8 \
+        option=$(whiptail --nocancel --title "Tables Menu" --fb --menu "Select an option" 18 60 9 \
             "1" "Create table" \
             "2" "List tables" \
             "3" "Drop table" \
@@ -14,7 +14,8 @@ function mainMenu() {
             "5" "Select from table" \
             "6" "Delete from table" \
             "7" "Update table" \
-            "8" "Exit" 3>&1 1>&2 2>&3)
+            "8" "Back to Main Menu" \
+            "9" "Exit" 3>&1 1>&2 2>&3)
 
         case $option in
         1)
@@ -40,6 +41,9 @@ function mainMenu() {
                source updatetb.sh $db_Name
                 ;;
          8)
+              source main.sh
+              ;;
+         9)
                 source exitScript.sh
                 ;;
          *)

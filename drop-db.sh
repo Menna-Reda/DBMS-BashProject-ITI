@@ -7,7 +7,7 @@ echo "from drop db : $DB_PATH"
 DB_PATH="$SCRIPT_DIR/DataBases"
 dropDB=$(whiptail --title "Drop DataBase" --inputbox "Enter your database name to drop" 8 45 3>&1 1>&2 2>&3)
 echo "will delete $dropDB db"
-if [ -d $dropDB ]; then
+if [ -d "$DB_PATH/$dropDB" ]; then
     whiptail --title "Drop Databse Message" --msgbox "You deleted $dropDB database successfully" 8 45
     rm -r $dropDB
     echo "You deleted the database $dropDB."
