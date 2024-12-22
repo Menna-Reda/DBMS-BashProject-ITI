@@ -35,7 +35,7 @@ function mainMenu() {
                 source selectmenu.sh $db_Name
                 ;;
          6)
-                source deletfromtb.sh $db_Name
+                source deletFromTb.sh $db_Name
                 ;;
          7)
                source updatetb.sh $db_Name

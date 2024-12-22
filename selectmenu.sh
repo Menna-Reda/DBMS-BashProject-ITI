@@ -50,24 +50,44 @@ function selectmenu() {
                         if [[ -z "$columnName" ]]; then
                             whiptail --title "Error" --msgbox "You must select a column!" 8 45
                         else
-                            filterValue=$(whiptail --title "Filter Value" --inputbox "Enter value for '$columnName':" 8 45 3>&1 1>&2 2>&3)
+                            columnType=$(awk -F: -v col="$columnName" 'NR==1 {for (i=1; i<=NF; i++) if ($i==col) colIndex=i} NR==2 {print $colIndex}' "$tablePath")
 
-                            if [[ -z "$filterValue" ]]; then
-                                whiptail --title "Error" --msgbox "You must enter a filter value!" 8 45
-                            else
-                                filteredRow=$(awk -F: -v col="$columnName" -v val="$filterValue" \
-                                    'NR==1 {for (i=1; i<=NF; i++) if ($i==col) colIndex=i} NR>1 && $colIndex==val {print $0}' "$tablePath")
-
-                                if [[ -z $filteredRow ]]; then
-                                    whiptail --title "No Data" --msgbox "No matching row found for $columnName='$filterValue'." 8 45
+                            while true; do
+                                if [[ "$columnType" == "int" ]]; then
+                                    # Input validation for integer
+                                    filterValue=$(whiptail --title "Filter Value" --inputbox "Enter an integer value for '$columnName':" 8 45 3>&1 1>&2 2>&3)
+                                    if [[ -z "$filterValue" ]]; then
+                                        whiptail --title "Error" --msgbox "You must enter a value!" 8 45
+                                    elif [[ ! "$filterValue" =~ ^-?[0-9]+$ ]]; then
+                                        whiptail --title "Error" --msgbox "Invalid input! Please enter an integer value." 8 45
+                                    else
+                                        break
+                                    fi
                                 else
-                                    whiptail --title "Filtered Row" --scrolltext --msgbox "$filteredRow" 20 60
+                                    # Input validation for string
+                                    filterValue=$(whiptail --title "Filter Value" --inputbox "Enter a string value for '$columnName':" 8 45 3>&1 1>&2 2>&3)
+                                    if [[ -z "$filterValue" ]]; then
+                                        whiptail --title "Error" --msgbox "You must enter a value!" 8 45
+                                    else
+                                        break
+                                    fi
                                 fi
+                            done
+
+                            filteredRow=$(awk -F: -v col="$columnName" -v val="$filterValue" -v type="$columnType" \
+                                'NR==1 {for (i=1; i<=NF; i++) if ($i==col) colIndex=i} \
+                                NR>1 {if (type=="int" && $colIndex==val) print $0; else if (type!="int" && $colIndex==val) print $0}' "$tablePath")
+
+                            if [[ -z $filteredRow ]]; then
+                                whiptail --title "No Data" --msgbox "No matching row found for $columnName='$filterValue'." 8 45
+                            else
+                                whiptail --title "Filtered Row" --scrolltext --msgbox "$filteredRow" 20 60
                             fi
                         fi
                     fi
-                    ;;
 
+
+                    ;;
 
             3) 
                 selectedColumns=$(awk -F: 'NR==1 {print $0}' "$tablePath" | tr ':' '\n' | \
@@ -88,12 +108,12 @@ function selectmenu() {
 
             4) 
                 echo "Select with Where Condition"
-                source "$SCRIPT_DIR/selectwhere.sh"
+                source "$SCRIPT_DIR/selectWhere.sh" "$db_Name" "$tableName"
                 ;;
 
             5) 
                 echo "Back to Table Menu"
-                source tablemenu.sh
+                source "$SCRIPT_DIR/tablemenu.sh"
                 break
                 ;;
 
