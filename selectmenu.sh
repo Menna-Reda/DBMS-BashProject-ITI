@@ -13,32 +13,35 @@ trap 'rm -f /tmp/table_data.tmp' EXIT
 
 function selectmenu() {
     while true; do
-        selectMenu=$(whiptail --title "Select Menu" --fb --menu "Select options:" 17 60 0 \
+        selectMenu=$(whiptail --title "Select Menu" --fb --menu "Select options:" 17 60 7 \
             "1" "Select All Columns" \
             "2" "Select Specific Row" \
             "3" "Select Specific Column" \
             "4" "Select With Where Condition" \
             "5" "Back to Table Menu" \
-            "6" "EXIT"\
-            "7" "Back to Main Menu" 3>&1 1>&2 2>&3)
+            "6" "Back to Main Menu"\
+            "7" "EXIT" 3>&1 1>&2 2>&3)
 
         case $selectMenu in
             1)
-                    if [[ ! -f "$DB_PATH" ]]; then
+                    if [[ ! -f "$tablePath" ]]; then
                         whiptail --title "Error" --msgbox "Table does not exist!" 8 45
                     else
-                        if [[ ! -s "$DB_PATH" ]]; then
+                        if [[ ! -s "$tablePath" ]]; then
                             whiptail --title "Error" --msgbox "The table is empty or unreadable!" 8 45
                         else
                             tableData=$(cat "$tablePath")
                             echo "$tableData" > /tmp/table_data.tmp
-                            whiptail --title "All Table Data" --scrolltext --textbox /tmp/table_data.tmp 30 60
+                            lines=$( cat /tmp/table_data.tmp | wc -l )
+                            menu_height=$(($lines*2))
+                            echo $menu_height
+                            whiptail --title "All Table Data" --scrolltext --textbox /tmp/table_data.tmp $menu_height 60
                         fi
                     fi
                     ;;
 
             2) 
-                    if [[ ! -f "$DB_PATH" ]]; then
+                    if [[ ! -f "$tablePath" ]]; then
                         whiptail --title "Error" --msgbox "Table does not exist!" 8 45
                     else
                         columnName=$(awk -F: 'NR==1 {print $0}' "$tablePath" | tr ':' '\n' | \
@@ -96,18 +99,20 @@ function selectmenu() {
                 ;;
 
             6)
-               source exitScript.sh
-               ;;
-            7)
                 echo "Back to Main Menu"
                 cd ..
                 source main.sh
                 break
                 ;;
 
+            7)
+               source exitScript.sh
+               ;;
+
             
             *) 
                 whiptail --title "Invalid Option" --msgbox "Please select a valid option!" 10 40
+                source selectmenu.sh
                 ;;
         esac
     done
