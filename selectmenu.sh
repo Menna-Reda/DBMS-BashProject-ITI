@@ -6,6 +6,8 @@ DB_PATH="$SCRIPT_DIR/DataBases/$db_Name"
 
 tableName=$(whiptail --title "Select Table" --inputbox "Enter Table Name:" 8 45 3>&1 1>&2 2>&3)
 tablePath="$DB_PATH/$tableName"
+tableMetaPath="$DB_PATH/.$tableName"
+
 
 
 
@@ -13,12 +15,11 @@ function selectmenu() {
     while true; do
         selectMenu=$(whiptail --title "Select Menu" --fb --menu "Select options:" 17 60 7 \
             "1" "Select All Columns" \
-            "2" "Select Specific Row" \
-            "3" "Select Specific Column" \
-            "4" "Select With Where Condition" \
-            "5" "Back to Table Menu" \
-            "6" "Back to Main Menu"\
-            "7" "EXIT" 3>&1 1>&2 2>&3)
+            "2" "Select Specific Column" \
+            "3" "Select With Where Condition" \
+            "4" "Back to Table Menu" \
+            "5" "Back to Main Menu"\
+            "6" "EXIT" 3>&1 1>&2 2>&3)
 
         case $selectMenu in
             1)
@@ -38,90 +39,46 @@ function selectmenu() {
                     fi
                     ;;
 
+            
             2) 
-                    if [[ ! -f "$tablePath" ]]; then
-                        whiptail --title "Error" --msgbox "Table does not exist!" 8 45
-                    else
-                        columnName=$(awk -F: 'NR==1 {print $0}' "$tablePath" | tr ':' '\n' | \
-                            whiptail --title "Select Column" --menu "Choose a column to filter by:" 20 60 15 \
-                            $(awk -F: 'NR==1 {for (i=1; i<=NF; i++) print i, $i}' "$tablePath") 3>&1 1>&2 2>&3)
+                colNo=$(awk -F: 'END { print NR }' "$tableMetaPath")
+                declare -a  columnNames
+                for ((i=1;i<=colNo;i++));do
+                    colName=$(awk -F: -v i=$i 'NR==1 {print $i}' "$tablePath")
+                    columnNames+=("$i" "$colName")
+                done
+                selectedColumnName=$(whiptail --title "Select Column" --menu "Choose a column to filter by:" 15 40 $colNo "${columnNames[@]}" 3>&1 1>&2 2>&3)
+                #selectedColumns=$(echo "$selectedColumns" | tr -d '"' | tr ' ' '|')
 
-                        if [[ -z "$columnName" ]]; then
-                            whiptail --title "Error" --msgbox "You must select a column!" 8 45
-                        else
-                            columnType=$(awk -F: -v col="$columnName" 'NR==1 {for (i=1; i<=NF; i++) if ($i==col) colIndex=i} NR==2 {print $colIndex}' "$tablePath")
-
-                            while true; do
-                                if [[ "$columnType" == "int" ]]; then
-                                    filterValue=$(whiptail --title "Filter Value" --inputbox "Enter an integer value for '$columnName':" 8 45 3>&1 1>&2 2>&3)
-                                    if [[ -z "$filterValue" ]]; then
-                                        whiptail --title "Error" --msgbox "You must enter a value!" 8 45
-                                    elif [[ ! "$filterValue" =~ ^-?[0-9]+$ ]]; then
-                                        whiptail --title "Error" --msgbox "Invalid input! Please enter an integer value." 8 45
-                                    else
-                                        break
-                                    fi
-                                else
-                                    filterValue=$(whiptail --title "Filter Value" --inputbox "Enter a string value for '$columnName':" 8 45 3>&1 1>&2 2>&3)
-                                    if [[ -z "$filterValue" ]]; then
-                                        whiptail --title "Error" --msgbox "You must enter a value!" 8 45
-                                    else
-                                        break
-                                    fi
-                                fi
-                            done
-
-                            filteredRow=$(awk -F: -v col="$columnName" -v val="$filterValue" -v type="$columnType" \
-                                'NR==1 {for (i=1; i<=NF; i++) if ($i==col) colIndex=i} \
-                                NR>1 {if (type=="int" && $colIndex==val) print $0; else if (type!="int" && $colIndex==val) print $0}' "$tablePath")
-
-                            if [[ -z $filteredRow ]]; then
-                                whiptail --title "No Data" --msgbox "No matching row found for $columnName='$filterValue'." 8 45
-                            else
-                                whiptail --title "Filtered Row" --scrolltext --msgbox "$filteredRow" 20 60
-                            fi
-                        fi
-                    fi
-
-
-                    ;;
-
-            3) 
-                selectedColumns=$(awk -F: 'NR==1 {print $0}' "$tablePath" | tr ':' '\n' | \
-                    whiptail --title "Select Columns" --checklist "Choose columns to display:" 20 60 15 \
-                    $(awk -F: 'NR==1 {for (i=1; i<=NF; i++) print $i " " $i " off"}' "$tablePath") 3>&1 1>&2 2>&3)
-                
-                selectedColumns=$(echo "$selectedColumns" | tr -d '"' | tr ' ' '|')
-
-                if [[ -z $selectedColumns ]]; then
-                    whiptail --title "No Columns Selected" --msgbox "You must select at least one column." 8 45
+                if [[ -z $selectedColumnName ]]; then
+                    whiptail --title "No Columns Selected" --msgbox "You must select at a column." 8 45
                 else
-                    selectedData=$(awk -F: -v cols="$selectedColumns" \
-                        'NR==1 {split(cols, colArr, "|"); for (i in colArr) {for (j=1; j<=NF; j++) if ($j==colArr[i]) indexes[i]=j}} \
-                         NR>1 {row=""; for (i in indexes) row=row $indexes[i] ":"; print substr(row, 1, length(row)-1)}' "$tablePath")
-                    whiptail --title "Selected Columns" --scrolltext --msgbox "$selectedData" 35 70
+                    selectedData=$(awk -F: -v cols="$selectedColumnName" ' 
+                    {print $cols}
+                    ' "$tablePath")
+                    whiptail --title "Selected Columns" --scrolltext --msgbox "$selectedData" 10 70
                 fi
                 ;;
 
-            4) 
+            3) 
                 echo "Select with Where Condition"
                 source "$SCRIPT_DIR/selectWhere.sh" "$db_Name" "$tableName"
                 ;;
 
-            5) 
+            4) 
                 echo "Back to Table Menu"
-                source "$SCRIPT_DIR/tablemenu.sh"
+                source "$SCRIPT_DIR/tableMenu.sh"
                 break
                 ;;
 
-            6)
+            5)
                 echo "Back to Main Menu"
                 cd ..
                 source main.sh
                 break
                 ;;
 
-            7)
+            6)
                source exitScript.sh
                ;;
 

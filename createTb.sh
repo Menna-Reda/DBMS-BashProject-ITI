@@ -7,8 +7,9 @@ if [[ ! -d "$dbName" ]]; then
     source tableMenu.sh
 fi
 tbName=$(whiptail --title "Create Table" --inputbox "Enter your table name to create:" 8 45 3>&1 1>&2 2>&3)
-
-if [[ -f "$dbName/$tbName" ]]; then
+if [[ -z "$tbName" ]]; then
+        whiptail --title "Invalid table name" --msgbox "Cannot create table name with blank name" 10 40
+elif [[ -f "$dbName/$tbName" ]]; then
     whiptail --title "Create Table Message" --msgbox "The table $tbName already exists!" 8 45
 else
     colNumber=$(whiptail --title "Column Number" --inputbox "Enter the number of columns:" 8 45 3>&1 1>&2 2>&3)
@@ -23,6 +24,11 @@ else
     fasel=":"
     while [[ $i -le $colNumber ]]; do
         colName=$(whiptail --title "Column Name" --inputbox "Enter Column $i Name:" 8 45 3>&1 1>&2 2>&3)
+            if [[ -z "$colName" ]]; then
+                whiptail --title "Error Message" --msgbox "Invalid Columns name" 10 40
+                source "$SCRIPT_DIR/tableMenu.sh"
+            fi
+
         datatypeMenu=$(whiptail --title "Data Type Menu" --fb --menu "Select Data Type:" 15 60 4 \
             "1" "int" \
             "2" "string" 3>&1 1>&2 2>&3)
