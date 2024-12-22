@@ -69,9 +69,5 @@ else
     whiptail --title "Create Table Message" --msgbox "You created the table $tbName successfully!" 8 45
 fi
 echo "$SCRIPT_DIR/tableMenu.sh"
-if [[ -f  "$source tableMenu.sh" ]]; then
-    source $SCRIPT_DIR/tableMenu.sh
-else
-    echo "Error: tableMenu.sh not found!"
-    exit 1
-fi
+
+source "$SCRIPT_DIR/tableMenu.sh"

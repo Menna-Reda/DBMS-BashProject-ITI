@@ -6,8 +6,8 @@ ls -l "$DB_PATH"
 
 function listDBs() {
  
-    DatabasesNo=$( ls -d $DB_PATH/* |wc -l )
-    DatabasesList=$( ls -d $DB_PATH/* | cut -d/ -f9)
+    DatabasesNo=$( ls -d "$DB_PATH/*" |wc -l )
+    DatabasesList=$( ls -d "$DB_PATH/*" | cut -d/ -f9)
      whiptail --title "List of DataBases" --msgbox "Number of databases: $DatabasesNo\n$DatabasesList" 15 40
 }
 listDBs

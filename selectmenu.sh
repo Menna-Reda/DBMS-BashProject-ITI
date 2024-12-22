@@ -8,8 +8,7 @@ tableName=$(whiptail --title "Select Table" --inputbox "Enter Table Name:" 8 45 
 tablePath="$DB_PATH/$tableName"
 echo "from select table path $tablePath"
 echo "from select --> i am at $SCRIPT_DIR"
-# Cleanup temporary files on exit
-trap 'rm -f /tmp/table_data.tmp' EXIT
+
 
 function selectmenu() {
     while true; do
@@ -24,21 +23,20 @@ function selectmenu() {
 
         case $selectMenu in
             1)
-                    if [[ ! -f "$DB_PATH" ]]; then
+                    if [[ ! -f "$tablePath" ]]; then
                         whiptail --title "Error" --msgbox "Table does not exist!" 8 45
                     else
-                        if [[ ! -s "$DB_PATH" ]]; then
+                        if [[ ! -s "$tablePath" ]]; then
                             whiptail --title "Error" --msgbox "The table is empty or unreadable!" 8 45
                         else
                             tableData=$(cat "$tablePath")
-                            echo "$tableData" > /tmp/table_data.tmp
                             whiptail --title "All Table Data" --scrolltext --textbox /tmp/table_data.tmp 30 60
                         fi
                     fi
                     ;;
 
             2) 
-                    if [[ ! -f "$DB_PATH" ]]; then
+                    if [[ ! -f "$tablePath" ]]; then
                         whiptail --title "Error" --msgbox "Table does not exist!" 8 45
                     else
                         columnName=$(awk -F: 'NR==1 {print $0}' "$tablePath" | tr ':' '\n' | \
