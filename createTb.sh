@@ -1,7 +1,7 @@
 #!/usr/bin/bash
-dbName=$1
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
-DB_PATH="$SCRIPT_DIR/DataBases/$dbName"
+DB_PATH="$SCRIPT_DIR/DataBases"
+dbName="$DB_PATH/$1"
 echo "from create table $DB_PATH"
 # Ensure database directory exists
 if [[ ! -d "$dbName" ]]; then
@@ -10,7 +10,7 @@ if [[ ! -d "$dbName" ]]; then
 fi
 tbName=$(whiptail --title "Create Table" --inputbox "Enter your table name to create:" 8 45 3>&1 1>&2 2>&3)
 
-if [[ -f "$DB_PATH/$tbName" ]]; then
+if [[ -f "$dbName/$tbName" ]]; then
     whiptail --title "Create Table Message" --msgbox "The table $tbName already exists!" 8 45
 else
     colNumber=$(whiptail --title "Column Number" --inputbox "Enter the number of columns:" 8 45 3>&1 1>&2 2>&3)
@@ -49,19 +49,19 @@ else
         # Write to files
         if [[ $i -eq $colNumber ]]; then
             if [[ $isPrimary == "PK" ]]; then 
-                echo -n "$colName" >> "$DB_PATH/$tbName"
-                echo "$colName$fasel$datatype$fasel$isPrimary" >> "$DB_PATH/.$tbName"
+                echo -n "$colName" >> "$dbName/$tbName"
+                echo "$colName$fasel$datatype$fasel$isPrimary" >> "$dbName/.$tbName"
             else 
-                echo -n "$colName" >> "$DB_PATH/$tbName"
-                echo "$colName$fasel$datatype" >> "$DB_PATH/.$tbName"
+                echo -n "$colName" >> "$dbName/$tbName"
+                echo "$colName$fasel$datatype" >> "$dbName/.$tbName"
             fi	
         else
             if [[ $isPrimary == "PK" ]]; then 
-                echo -n "$colName$fasel" >> "$DB_PATH/$tbName"
-                echo "$colName$fasel$datatype$fasel$isPrimary$fasel" >> "$DB_PATH/.$tbName"
+                echo -n "$colName$fasel" >> "$dbName/$tbName"
+                echo "$colName$fasel$datatype$fasel$isPrimary$fasel" >> "$dbName/.$tbName"
             else 
-                echo -n "$colName$fasel" >> "$DB_PATH/$tbName"
-                echo "$colName$fasel$datatype$fasel" >> "$DB_PATH/.$tbName"
+                echo -n "$colName$fasel" >> "$dbName/$tbName"
+                echo "$colName$fasel$datatype$fasel" >> "$dbName/.$tbName"
             fi
         fi
         ((i++))
@@ -69,7 +69,7 @@ else
     whiptail --title "Create Table Message" --msgbox "You created the table $tbName successfully!" 8 45
 fi
 echo "$SCRIPT_DIR/tableMenu.sh"
-if [[ -f  "$source tableMenu.sh" ]]; then
+if [[ -f "$SCRIPT_DIR/tableMenu.sh" ]]; then
     source $SCRIPT_DIR/tableMenu.sh
 else
     echo "Error: tableMenu.sh not found!"
