@@ -22,15 +22,15 @@ function updateTable(){
           valToUpdate=$(whiptail --title "Selected Column" --inputbox "Enter value you want to filter by for column: ${columnNames[$selectedColumnName]}" 10 40 3>&1 1>&2 2>&3)
           echo "Selected Column: $selectedColumnName"
         echo "Value to filter: $valToUpdate"
-          checkValToUpdate=$(awk -v f="$selectedColumnName" -v valToUpdate="$valToUpdate" '
-                                                                                                BEGIN { FS=":" }
-                                                                                                $f == $valToUpdate { print $valToUpdate; exit }
-                                                                                            ' "$DB_PATH/$dbName/$tbName")
+        #   checkValToUpdate=$(awk -v f="$selectedColumnName" -v valToUpdate="$valToUpdate" '
+        #                                                                                         BEGIN { FS=":" }
+        #                                                                                         $f == $valToUpdate { print $valToUpdate; exit }
+        #                                                                                     ' "$DB_PATH/$dbName/$tbName")
            if [[ -z "$valToUpdate" ]]; then
             whiptail --title "Error Message" --msgbox "No value to filter by is entered!" 10 40
-            elif [[ -z $checkValToUpdate ]];then
-                whiptail --title "Error Message" --msgbox "No value $valToUpdate in ${columns[$selectedColumnName]}!" 10 40
-                . "$SCRIPT_DIR/tableMenu.sh"
+            # elif [[ -z $checkValToUpdate ]];then
+            #     whiptail --title "Error Message" --msgbox "No value $valToUpdate in ${columns[$selectedColumnName]}!" 10 40
+            #     . "$SCRIPT_DIR/tableMenu.sh"
     
             
            else
