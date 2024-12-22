@@ -5,7 +5,6 @@ DB_PATH="$SCRIPT_DIR/DataBases"
 function createDB {
     dbName=$1
     if [[ -d "$DB_PATH/$dbName" ]]; then
-	echo "DataBase $dbName Already Exists";
 	whiptail --title "Create Databse Message" --msgbox "DataBase $dbName Already Exists" 10 40
     else
         if [[ -z $dbName ]]; then

@@ -3,11 +3,10 @@
 db_Name=$1
 SCRIPT_DIR=$(dirname "$(realpath "$0")")  # Get the directory of the current script
 DB_PATH="$SCRIPT_DIR/DataBases/$db_Name"
-echo "from select $DB_PATH"
+
 tableName=$(whiptail --title "Select Table" --inputbox "Enter Table Name:" 8 45 3>&1 1>&2 2>&3)
 tablePath="$DB_PATH/$tableName"
-echo "from select table path $tablePath"
-echo "from select --> i am at $SCRIPT_DIR"
+
 
 
 function selectmenu() {
@@ -54,7 +53,6 @@ function selectmenu() {
 
                             while true; do
                                 if [[ "$columnType" == "int" ]]; then
-                                    # Input validation for integer
                                     filterValue=$(whiptail --title "Filter Value" --inputbox "Enter an integer value for '$columnName':" 8 45 3>&1 1>&2 2>&3)
                                     if [[ -z "$filterValue" ]]; then
                                         whiptail --title "Error" --msgbox "You must enter a value!" 8 45
@@ -64,7 +62,6 @@ function selectmenu() {
                                         break
                                     fi
                                 else
-                                    # Input validation for string
                                     filterValue=$(whiptail --title "Filter Value" --inputbox "Enter a string value for '$columnName':" 8 45 3>&1 1>&2 2>&3)
                                     if [[ -z "$filterValue" ]]; then
                                         whiptail --title "Error" --msgbox "You must enter a value!" 8 45

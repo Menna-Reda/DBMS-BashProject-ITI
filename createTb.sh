@@ -2,10 +2,8 @@
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 DB_PATH="$SCRIPT_DIR/DataBases"
 dbName="$DB_PATH/$1"
-echo "from create table $DB_PATH"
-# Ensure database directory exists
+
 if [[ ! -d "$dbName" ]]; then
-    echo "Database $dbName does not exist. Please create it first."
     source tableMenu.sh
 fi
 tbName=$(whiptail --title "Create Table" --inputbox "Enter your table name to create:" 8 45 3>&1 1>&2 2>&3)
@@ -20,7 +18,6 @@ else
     fi
     touch $tbName
     touch .$tbName
-    echo "Successfully created the table files."
     i=1
     flag=0
     fasel=":"
@@ -68,5 +65,3 @@ else
     done
     whiptail --title "Create Table Message" --msgbox "You created the table $tbName successfully!" 8 45
 fi
-echo "$SCRIPT_DIR/tableMenu.sh"
-source "$SCRIPT_DIR/tableMenu.sh"

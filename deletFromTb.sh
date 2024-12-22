@@ -1,7 +1,6 @@
 #!/bin/bash
 db_Name=$1
 SCRIPT_DIR=$(dirname "$(realpath "$0")")  # Get the directory of the current script
-echo "from delete from tb $SCRIPT_DIR"
 DB_PATH="$SCRIPT_DIR/DataBases/$db_Name"
 
 tableName=$(whiptail --title "Select Table" --inputbox "Enter Table Name:" 8 45 3>&1 1>&2 2>&3)

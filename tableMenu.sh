@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")  # Get the directory of the current script
-echo "sript from table menu $SCRIPT_DIR"
 db_Name=$1
+
 function mainMenu() {
   while true ; do     
 
